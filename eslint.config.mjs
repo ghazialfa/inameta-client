@@ -1,0 +1,24 @@
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+    ...nextVitals,
+    ...nextTs,
+    {
+        rules: {
+            indent: ["error", 4, { SwitchCase: 1 }],
+            "react/jsx-indent": ["error", 4],
+            "react/jsx-indent-props": ["error", 4],
+            "no-mixed-spaces-and-tabs": "error",
+        },
+    },
+    globalIgnores([
+        ".next/**",
+        "out/**",
+        "build/**",
+        "next-env.d.ts",
+    ]),
+]);
+
+export default eslintConfig;
