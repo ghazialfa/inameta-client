@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import logoIcon from "@/assets/img/icons/icon.png"
 import wellImage from "@/assets/img/well.png"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { api } from "@/lib/axios"
 import { useAuthStore } from "@/store/auth"
@@ -15,18 +15,22 @@ import { z } from "zod"
 
 export default function LoginPage() {
     const [isVisible, setIsVisible] = useState(false)
-    const [errors, setErrors] = useState<{ email?: string; password?: string; root?: string }>({})
+    const [errors, setErrors] = useState<{ username?: string; password?: string; root?: string }>({})
     const router = useRouter()
+    const token = useAuthStore((s) => s.token)
+    const hydrated = useAuthStore((s) => s.hydrated)
+
 
     const loginSchema = z.object({
-        email: z.string().email("Email tidak valid"),
-        password: z.string().min(6, "Password minimal 6 karakter"),
+        username: z.string().min(3, "Username must be at least 3 characters"),
+        password: z.string().min(6, "Password must be at least 6 characters"),
         remember: z.boolean().optional(),
     })
 
     const mutation = useMutation({
-        mutationFn: async (payload: { email: string; password: string }) => {
-            const res = await api.post("/auth/login", payload)
+        mutationFn: async (payload: { username: string; password: string }) => {
+            const res = await api.post("/login", payload)
+            
             return res.data as { token: string; user?: { id?: string } }
         },
         onSuccess: (data) => {
@@ -34,13 +38,17 @@ export default function LoginPage() {
             const userId = data?.user?.id ?? null
             if (token) {
                 useAuthStore.getState().setAuth(token, userId ?? null)
-                router.push("/dashboard")
+                router.push("/")
             }
         },
         onError: () => {
-            setErrors((prev) => ({ ...prev, root: "Login gagal. Periksa email dan password." }))
+            setErrors((prev) => ({ ...prev, root: "Login failed. Please check your username and password." }))
         },
     })
+
+    useEffect(() => {
+        if (hydrated && token) router.replace("/")
+    }, [hydrated, token, router])
 
     return (
         <div className="grid min-h-svh lg:grid-cols-2">
@@ -60,7 +68,7 @@ export default function LoginPage() {
                             const form = e.currentTarget
                             const formData = new FormData(form)
                             const raw = {
-                                email: String(formData.get("email") || ""),
+                                username: String(formData.get("username") || ""),
                                 password: String(formData.get("password") || ""),
                                 remember: Boolean(formData.get("remember")),
                             }
@@ -68,13 +76,13 @@ export default function LoginPage() {
                             if (!parsed.success) {
                                 const fieldErrors: typeof errors = {}
                                 parsed.error.issues.forEach((i) => {
-                                    if (i.path[0] === "email") fieldErrors.email = i.message
+                                    if (i.path[0] === "username") fieldErrors.username = i.message
                                     else if (i.path[0] === "password") fieldErrors.password = i.message
                                 })
                                 setErrors(fieldErrors)
                                 return
                             }
-                            mutation.mutate({ email: parsed.data.email, password: parsed.data.password })
+                            mutation.mutate({ username: parsed.data.username, password: parsed.data.password })
                         }}
                     >
                         <FieldGroup>
@@ -82,10 +90,10 @@ export default function LoginPage() {
                                 <h1 className="text-2xl font-bold">Good Morning</h1>
                                 <p className="text-muted-foreground text-sm text-balance">Enter your credentials to access your workspace</p>
                             </div>
-                            <Field data-invalid={Boolean(errors.email)}>
-                                <FieldLabel htmlFor="email">Email</FieldLabel>
-                                <Input id="email" name="email" type="email" placeholder="Enter your email" aria-invalid={Boolean(errors.email)} required />
-                                {errors.email && <FieldDescription>{errors.email}</FieldDescription>}
+                            <Field data-invalid={Boolean(errors.username)}>
+                                <FieldLabel htmlFor="username">Username</FieldLabel>
+                                <Input id="username" name="username" type="text" placeholder="Enter your username" aria-invalid={Boolean(errors.username)} required />
+                                {errors.username && <FieldDescription>{errors.username}</FieldDescription>}
                             </Field>
                             <Field data-invalid={Boolean(errors.password)}>
                                 <FieldLabel htmlFor="password">Password</FieldLabel>

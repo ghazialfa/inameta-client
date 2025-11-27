@@ -1,5 +1,6 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { NavMain } from "@/components/common/sidebar/nav-main"
 import { Separator } from "@/components/ui/separator"
 import { SidebarProvider, SidebarInset, SidebarTrigger, Sidebar, SidebarHeader, SidebarContent, SidebarRail } from "@/components/ui/sidebar"
@@ -8,6 +9,9 @@ import * as Icons from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import Image from "next/image"
 import logoIcon from "@/assets/img/icons/icon.png"
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useAuthStore } from "@/store/auth"
 
 function toPascalCase(name: string) {
     return name.split("-").map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join("")
@@ -52,7 +56,15 @@ const navRepositoryDataItems = data.navRepositoryData.map((item) => ({
 }))
 
 
-export default function PagesLayout({ children, ...props }: React.ComponentProps<typeof Sidebar> & { children: React.ReactNode }) {
+function PagesLayoutImpl({ children, ...props }: React.ComponentProps<typeof Sidebar> & { children: React.ReactNode }) {
+    const token = useAuthStore((s) => s.token)
+    const hydrated = useAuthStore((s) => s.hydrated)
+    const router = useRouter()
+
+    useEffect(() => {
+        if (hydrated && !token) router.replace("/login")
+    }, [hydrated, token, router])
+
     return (
         <SidebarProvider>
             <Sidebar collapsible="icon" {...props}>
@@ -75,3 +87,7 @@ export default function PagesLayout({ children, ...props }: React.ComponentProps
         </SidebarProvider>
     )
 }
+
+const PagesLayout = dynamic(() => Promise.resolve(PagesLayoutImpl), { ssr: false })
+
+export default PagesLayout
