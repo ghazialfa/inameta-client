@@ -1,8 +1,44 @@
 // import { Button } from "@/components/ui/button"
 // import Link from "next/link"
-import type { Basin } from "@/components/common/datatable/columns"
+type Basin = {
+    area_id: string | null
+    area_type: string | null
+    area_desc_code: string | null
+    product_type: string | null
+    open_balance: string | null
+    open_balance_ouom: string | null
+    current_balance: string | null
+    current_balance_ouom: string | null
+    original_file_name: string | null
+    decrypt_key: string | null
+    decryption_type: string | null
+    digital_size: string | null
+    digital_size_uom: string | null
+    media_type: string | null
+    remark: string | null
+    size_type: string | null
+    size_type_1: string | null
+    gross_size: string | null
+    gross_size_1: string | null
+    gross_size_2: string | null
+    size_ouom: string | null
+    fault_type: string | null
+    source: string | null
+    row_quality: string | null
+    checked_by_ba_id: string | null
+    dm_row_created_by: string | null
+    dm_row_created_date: Date | null
+    dm_row_approved_by: string | null
+    dm_row_approved_date: Date | null
+    dm_row_loaded_by: string | null
+    dm_row_loaded_date: Date | null
+    dm_row_qc_by: string | null
+    dm_row_qc_date: Date | null
+    uuid: string
+}
 import basinsJson from "../basins.json"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
+import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 
 interface BasinPageProps {
@@ -11,17 +47,14 @@ interface BasinPageProps {
     }>
 }
 
-export default async function Page({params}: BasinPageProps) {
+export default async function BasinDetailPage({ params }: BasinPageProps) {
     const { uuid } = await params
-    
+
     if (!uuid) {
         return <div className="p-6 text-red-600">Invalid route parameter.</div>
     }
 
-    type BasinJson = Omit<
-        Basin,
-        "dm_row_created_date" | "dm_row_approved_date" | "dm_row_loaded_date" | "dm_row_qc_date"
-    > & {
+    type BasinJson = Omit<Basin, "dm_row_created_date" | "dm_row_approved_date" | "dm_row_loaded_date" | "dm_row_qc_date"> & {
         dm_row_created_date: string | null
         dm_row_approved_date: string | null
         dm_row_loaded_date: string | null
@@ -44,13 +77,13 @@ export default async function Page({params}: BasinPageProps) {
     }
 
     return (
-        <div className="min-h-dvh py-16 px-8 bg-gray-100">
+        <div className="min-h-dvh py-16 px-8 bg-background">
             <div className="flex flex-col gap-6">
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/basin" className="text-[#0EB0EE]">
-                                Basin
+                            <BreadcrumbLink asChild>
+                                <Link href="/basin" className="text-primary">Basin</Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
@@ -61,13 +94,13 @@ export default async function Page({params}: BasinPageProps) {
                 </Breadcrumb>
                 <div className="flex flex-col gap-2">
                     <h1 className="text-3xl font-bold">{basin.area_id}</h1>
-                    <h1 className="text-[#727272]">{basin.area_desc_code}</h1>
+                    <h1 className="text-muted-foreground">{basin.area_desc_code}</h1>
                 </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6 py-6">
-                <div className="flex flex-col gap-4 bg-[#FEFEFE] border-white rounded-md p-6">
-                    <h4 className="text-[#0A89CC] font-bold text-xl">Basic Information</h4>
+                <div className="flex flex-col gap-4 bg-card border border-border rounded-md p-6">
+                    <h4 className="text-primary font-bold text-xl">Basic Information</h4>
                     <div className="flex justify-between">
                         <p className="text-gray-500 text-sm">Area ID</p>
                         <p className="font-medium">{basin.area_id || "-"}</p>
@@ -81,7 +114,17 @@ export default async function Page({params}: BasinPageProps) {
                     <div className="flex justify-between">
                         <p className="text-gray-500 text-sm">Area Description Code</p>
                         <p className="font-medium">
-                            <Badge variant={"outline"}>{basin.area_desc_code || "-"}</Badge>
+                            {(() => {
+                                const label = basin.area_desc_code || "-"
+                                const variant = label.includes("Discovery")
+                                    ? "success"
+                                    : label.includes("Producing")
+                                        ? "destructive"
+                                        : label.includes("Unexplored")
+                                            ? "warning"
+                                            : "default"
+                                return <Badge variant={variant}>{label}</Badge>
+                            })()}
                         </p>
                     </div>
                     <hr />
@@ -101,8 +144,8 @@ export default async function Page({params}: BasinPageProps) {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-4 bg-[#FEFEFE] border-white rounded-md p-6">
-                    <h4 className="text-[#0A89CC] font-bold text-xl">Size Information</h4>
+                <div className="flex flex-col gap-4 bg-card border border-border rounded-md p-6">
+                    <h4 className="text-primary font-bold text-xl">Size Information</h4>
                     <div className="flex justify-between">
                         <p className="text-gray-500 text-sm">Size Type</p>
                         <p className="font-medium">{basin.size_type || "-"}</p>
@@ -134,8 +177,8 @@ export default async function Page({params}: BasinPageProps) {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-4 bg-[#FEFEFE] border-white rounded-md p-6">
-                    <h4 className="text-[#0A89CC] font-bold text-xl">Balance Information</h4>
+                <div className="flex flex-col gap-4 bg-card border border-border rounded-md p-6">
+                    <h4 className="text-primary font-bold text-xl">Balance Information</h4>
                     <div className="flex justify-between">
                         <p className="text-gray-500 text-sm">Open Balance</p>
                         <p className="font-medium">{basin.open_balance?.toString() || "-"}</p>
@@ -157,8 +200,8 @@ export default async function Page({params}: BasinPageProps) {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-4 bg-[#FEFEFE] border-white rounded-md p-6">
-                    <h4 className="text-[#0A89CC] font-bold text-xl">File Information</h4>
+                <div className="flex flex-col gap-4 bg-card border border-border rounded-md p-6">
+                    <h4 className="text-primary font-bold text-xl">File Information</h4>
                     <div className="flex justify-between">
                         <p className="text-gray-500 text-sm">Original File Name</p>
                         <p className="font-medium">{basin.original_file_name || "-"}</p>
@@ -180,8 +223,8 @@ export default async function Page({params}: BasinPageProps) {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-4 bg-[#FEFEFE] border-white rounded-md p-6">
-                    <h4 className="text-[#0A89CC] font-bold text-xl">Quality & Verification</h4>
+                <div className="flex flex-col gap-4 bg-card border border-border rounded-md p-6">
+                    <h4 className="text-primary font-bold text-xl">Quality & Verification</h4>
                     <div className="flex justify-between">
                         <p className="text-gray-500 text-sm">Fault Type</p>
                         <p className="font-medium">{basin.fault_type || "-"}</p>
@@ -199,7 +242,7 @@ export default async function Page({params}: BasinPageProps) {
                 </div>
 
                 <div className="flex flex-col gap-4 bg-[#FEFEFE] border-white rounded-md p-6">
-                    <h4 className="text-[#0A89CC] font-bold text-xl">Security Information</h4>
+                    <h4 className="text-primary font-bold text-xl">Security Information</h4>
                     <div className="flex justify-between">
                         <p className="text-gray-500 text-sm">Decrypt Key</p>
                         <p className="font-medium">{basin.decrypt_key || "-"}</p>

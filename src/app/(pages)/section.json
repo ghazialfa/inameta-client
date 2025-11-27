@@ -26,9 +26,7 @@
                     "label": "Basin",
                     "icon": "LayersIcon",
                     "tooltip": "Basin",
-                    "children": [
-                        { "href": "/basin", "label": "Overview" }
-                    ]
+                    "children": [{ "href": "/basin", "label": "Overview" }]
                 },
                 {
                     "href": "/working-area",
@@ -75,12 +73,29 @@
         {
             "title": "Well",
             "url": "/well",
-            "icon": "oil-rig",
+            "icon": "tower-control",
             "tooltip": "Well",
             "items": [
                 {
-                    "href": "/well",
-                    "label": "Overview"
+                    "href": "/well-summary",
+                    "label": "Well Summary"
+                },
+                {
+                    "href": "/well-drilling",
+                    "label": "Well Drilling"
+                },
+                {
+                    "href": "/well-casing",
+                    "label": "Well Casing"
+                },
+                {
+                    "label": "Well Log",
+                    "items": [
+                        {
+                            "href": "/",
+                            "label": "Overview"
+                        }
+                    ]
                 }
             ]
         },
@@ -115,8 +130,12 @@
             "tooltip": "Maps & Technical Drawings",
             "items": [
                 {
-                    "href": "/maps-technical-drawings",
-                    "label": "Overview"
+                    "href": "/printed-maps",
+                    "label": "Printed Maps & Technical Drawings"
+                },
+                {
+                    "href": "/digital-maps",
+                    "label": "Digital Maps & Technical Drawings"
                 }
             ]
         },

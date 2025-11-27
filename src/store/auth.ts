@@ -1,14 +1,14 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
 type AuthState = {
-    token: string | null;
-    userId: string | null;
-    hydrated: boolean;
-    setAuth: (token: string, userId: string | null) => void;
-    clearAuth: () => void;
-    setHydrated: (value: boolean) => void;
-};
+    token: string | null
+    userId: string | null
+    hydrated: boolean
+    setAuth: (token: string, userId: string | null) => void
+    clearAuth: () => void
+    setHydrated: (value: boolean) => void
+}
 
 export const useAuthStore = create<AuthState>()(
     persist(
@@ -23,8 +23,8 @@ export const useAuthStore = create<AuthState>()(
         {
             name: "auth",
             onRehydrateStorage: () => (state) => {
-                state?.setHydrated(true);
+                state?.setHydrated(true)
             },
-        }
-    )
-);
+        },
+    ),
+)

@@ -19,8 +19,8 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ChevronRight, ChevronLeft, Search, Funnel, Copy } from "lucide-react"
-// import { toast } from "sonner"
+import { ChevronRight, ChevronLeft, Search, Funnel, Copy, CircleCheckBig } from "lucide-react"
+import { toast } from "sonner"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -67,63 +67,63 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         },
     })
 
-    // function handleCopyRowsAsCSV() {
-    //     const pageRows = table.getPaginationRowModel().rows
-    //     const selectedRows = table.getSelectedRowModel().rows
+    function handleCopyRowsAsCSV() {
+        const pageRows = table.getPaginationRowModel().rows
+        const selectedRows = table.getSelectedRowModel().rows
 
-    //     const rowsToCopy = selectedRows.length > 0 ? selectedRows : pageRows
+        const rowsToCopy = selectedRows.length > 0 ? selectedRows : pageRows
 
-    //     if (!rowsToCopy.length) return
+        if (!rowsToCopy.length) return
 
-    //     const exportableColumns = columns
-    //         .filter((c): c is ColumnDef<TData> & { accessorKey: string } => "accessorKey" in c && typeof c.accessorKey === "string")
-    //         .map((c) => c.accessorKey)
+        const exportableColumns = columns
+            .filter((c): c is ColumnDef<TData> & { accessorKey: string } => "accessorKey" in c && typeof c.accessorKey === "string")
+            .map((c) => c.accessorKey)
 
-    //     const header = exportableColumns.join(",")
+        const header = exportableColumns.join(",")
 
-    //     const csvRows = rowsToCopy.map((row) =>
-    //         exportableColumns
-    //             .map((key) => {
-    //                 const value = row.original[key as keyof TData]
+        const csvRows = rowsToCopy.map((row) =>
+            exportableColumns
+                .map((key) => {
+                    const value = row.original[key as keyof TData]
 
-    //                 if (typeof value === "string") {
-    //                     return `"${value.replace(/"/g, '""')}"`
-    //                 }
-    //                 return value ?? ""
-    //             })
-    //             .join(","),
-    //     )
+                    if (typeof value === "string") {
+                        return `"${value.replace(/"/g, '""')}"`
+                    }
+                    return value ?? ""
+                })
+                .join(","),
+        )
 
-    //     const csvString = [header, ...csvRows].join("\n")
+        const csvString = [header, ...csvRows].join("\n")
 
-    //     navigator.clipboard.writeText(csvString).then(() => {
-    //         const pageIndex = table.getState().pagination.pageIndex
-    //         const pageSize = table.getState().pagination.pageSize
+        navigator.clipboard.writeText(csvString).then(() => {
+            const pageIndex = table.getState().pagination.pageIndex
+            const pageSize = table.getState().pagination.pageSize
 
-    //         const start = pageIndex * pageSize + 1
-    //         const end = start + pageRows.length - 1
+            const start = pageIndex * pageSize + 1
+            const end = start + pageRows.length - 1
 
-    //         const copiedLabel = rowsToCopy.length === pageRows.length ? `${start}-${end} rows` : `${rowsToCopy.length} row${rowsToCopy.length > 1 ? "s" : ""}`
+            const copiedLabel = rowsToCopy.length === pageRows.length ? `${start}-${end} rows` : `${rowsToCopy.length} row${rowsToCopy.length > 1 ? "s" : ""}`
 
-    //         toast(
-    //             <div className="flex flex-col gap-1 p-1">
-    //                 <div className="flex gap-3 items-center">
-    //                     <span className="text-[#009951] ">
-    //                         <CircleCheckBig size={16} />
-    //                     </span>
-    //                     <span className="text-[#009951] font-medium">Copied Successfully!</span>
-    //                 </div>
-    //                 <span className="text-[#727272] ml-7">Copied {copiedLabel} to clipboard</span>
-    //             </div>,
-    //         )
-    //     })
-    // }
+            toast(
+                <div className="flex flex-col gap-1 p-1">
+                    <div className="flex gap-3 items-center">
+                        <span className="text-success ">
+                            <CircleCheckBig size={16} />
+                        </span>
+                        <span className="text-success font-medium">Copied Successfully!</span>
+                    </div>
+                    <span className="text-muted-foreground ml-7">Copied {copiedLabel} to clipboard</span>
+                </div>,
+            )
+        })
+    }
 
     return (
         <div className="flex flex-col gap-8">
             <div className="flex items-center gap-4 w-full">
-                <div className="py-1 px-3 w-full flex items-center border border-[#CFCFCF] rounded-sm bg-[#FAFAFA] ">
-                    <span className="text-[#B2B2B2]">
+                <div className="py-1 px-3 w-full flex items-center border border-border rounded-sm bg-muted ">
+                    <span className="text-muted-foreground">
                         <Search />
                     </span>
                     <Input
@@ -167,7 +167,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                         </DropdownMenuContent>
                     </DropdownMenu>
 
-                    <Button variant={"outline"} className="p-6 w-28 rounded-sm shadow-none cursor-pointer">
+                    <Button variant={"outline"} className="p-6 w-28 rounded-sm shadow-none cursor-pointer" onClick={handleCopyRowsAsCSV}>
                         <Copy /> Copy Row
                     </Button>
                 </div>
@@ -179,7 +179,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id} className="text-[#727272]">
+                                        <TableHead key={header.id} className="text-muted-foreground">
                                             {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                                         </TableHead>
                                     )
@@ -220,13 +220,13 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
                 <div className="flex items-center space-x-2">
                     <div className="flex items-center gap-3 text-black">
-                        <span className="flex justify-center px-6 py-1 border-2 border-[#CFCFCF] rounded-sm">{table.getState().pagination.pageIndex + 1}</span>
+                        <span className="flex justify-center px-6 py-1 border-2 border-border rounded-sm">{table.getState().pagination.pageIndex + 1}</span>
                         of {table.getPageCount()} Page
                     </div>
 
                     <Button
                         variant="default"
-                        className="w-28 h-8 bg-[#0EB0EE] hover:bg-[#0A89CC] disabled:bg-[#F4F4F4] disabled:text-[#CFCFCF] rounded-sm font-medium cursor-pointer"
+                        className="w-28 h-8 bg-primary hover:bg-primary/90 disabled:bg-muted disabled:text-muted-foreground rounded-sm font-medium cursor-pointer"
                         size="sm"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
@@ -235,7 +235,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                     </Button>
                     <Button
                         variant="default"
-                        className="w-28 h-8 bg-[#0EB0EE] hover:bg-[#0A89CC] disabled:bg-[#F4F4F4] disabled:text-[#CFCFCF] rounded-sm font-medium cursor-pointer"
+                        className="w-28 h-8 bg-primary hover:bg-primary/90 disabled:bg-muted disabled:text-muted-foreground rounded-sm font-medium cursor-pointer"
                         size="sm"
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}

@@ -20,7 +20,6 @@ export default function LoginPage() {
     const token = useAuthStore((s) => s.token)
     const hydrated = useAuthStore((s) => s.hydrated)
 
-
     const loginSchema = z.object({
         username: z.string().min(3, "Username must be at least 3 characters"),
         password: z.string().min(6, "Password must be at least 6 characters"),
@@ -30,7 +29,7 @@ export default function LoginPage() {
     const mutation = useMutation({
         mutationFn: async (payload: { username: string; password: string }) => {
             const res = await api.post("/login", payload)
-            
+
             return res.data as { token: string; user?: { id?: string } }
         },
         onSuccess: (data) => {
@@ -92,7 +91,14 @@ export default function LoginPage() {
                             </div>
                             <Field data-invalid={Boolean(errors.username)}>
                                 <FieldLabel htmlFor="username">Username</FieldLabel>
-                                <Input id="username" name="username" type="text" placeholder="Enter your username" aria-invalid={Boolean(errors.username)} required />
+                                <Input
+                                    id="username"
+                                    name="username"
+                                    type="text"
+                                    placeholder="Enter your username"
+                                    aria-invalid={Boolean(errors.username)}
+                                    required
+                                />
                                 {errors.username && <FieldDescription>{errors.username}</FieldDescription>}
                             </Field>
                             <Field data-invalid={Boolean(errors.password)}>

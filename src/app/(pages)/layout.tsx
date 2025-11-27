@@ -14,7 +14,10 @@ import { useRouter } from "next/navigation"
 import { useAuthStore } from "@/store/auth"
 
 function toPascalCase(name: string) {
-    return name.split("-").map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join("")
+    return name
+        .split("-")
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join("")
 }
 
 function resolveIcon(name?: string): LucideIcon | undefined {
@@ -55,8 +58,7 @@ const navRepositoryDataItems = data.navRepositoryData.map((item) => ({
     })),
 }))
 
-
-function PagesLayoutImpl({ children }: { children: React.ReactNode; params: Promise<{}> }) {
+function PagesLayoutImpl({ children }: { children: React.ReactNode; params: Promise<Record<string, unknown>> }) {
     const token = useAuthStore((s) => s.token)
     const hydrated = useAuthStore((s) => s.hydrated)
     const router = useRouter()
@@ -79,10 +81,10 @@ function PagesLayoutImpl({ children }: { children: React.ReactNode; params: Prom
                 <SidebarRail />
             </Sidebar>
             <SidebarInset>
-                <div className="flex items-center gap-2 border-b px-4 py-2">
+                <div className="flex items-center gap-2 border-b border-border bg-card px-4 py-2">
                     <SidebarTrigger />
                 </div>
-                <div className="p-4">{children}</div>
+                <div className="p-4 bg-background min-h-dvh">{children}</div>
             </SidebarInset>
         </SidebarProvider>
     )

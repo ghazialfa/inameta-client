@@ -2,6 +2,7 @@
 
 import { ChevronRight, type LucideIcon } from "lucide-react"
 import { usePathname } from "next/navigation"
+import Link from "next/link"
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import {
@@ -40,7 +41,7 @@ export function NavMain({
         <SidebarGroup>
             {/* <SidebarGroupLabel>Platform</SidebarGroupLabel> */}
             <SidebarMenu>
-                {items.map((item) => (
+                {items.map((item) =>
                     item.items && item.items.length > 0 ? (
                         <Collapsible
                             key={item.title}
@@ -61,9 +62,9 @@ export function NavMain({
                                         {item.items?.map((subItem) => (
                                             <SidebarMenuSubItem key={subItem.title}>
                                                 <SidebarMenuSubButton asChild isActive={isActiveUrl(subItem.url)}>
-                                                    <a href={subItem.url}>
+                                                    <Link href={subItem.url}>
                                                         <span>{subItem.title}</span>
-                                                    </a>
+                                                    </Link>
                                                 </SidebarMenuSubButton>
                                             </SidebarMenuSubItem>
                                         ))}
@@ -74,14 +75,14 @@ export function NavMain({
                     ) : (
                         <SidebarMenuItem key={item.title}>
                             <SidebarMenuButton asChild tooltip={item.title} isActive={isActiveUrl(item.url)}>
-                                <a href={item.url}>
+                                <Link href={item.url}>
                                     {item.icon && <item.icon />}
                                     <span>{item.title}</span>
-                                </a>
+                                </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
-                    )
-                ))}
+                    ),
+                )}
             </SidebarMenu>
         </SidebarGroup>
     )
