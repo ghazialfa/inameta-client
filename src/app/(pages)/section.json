@@ -1,0 +1,148 @@
+{
+    "navMain": [
+        {
+            "title": "Dashboard",
+            "url": "/dashboard",
+            "icon": "LayoutDashboard",
+            "isActive": true
+        },
+        {
+            "title": "About",
+            "url": "/about",
+            "icon": "Info"
+        },
+        {
+            "title": "Maps & Technical Drawings",
+            "url": "/maps-technical-drawings",
+            "icon": "Map"
+        },
+        {
+            "title": "General Information",
+            "url": "/general-information",
+            "icon": "Book",
+            "items": [
+                {
+                    "href": "/basin",
+                    "label": "Basin",
+                    "icon": "LayersIcon",
+                    "tooltip": "Basin",
+                    "children": [
+                        { "href": "/basin", "label": "Overview" }
+                    ]
+                },
+                {
+                    "href": "/working-area",
+                    "label": "Working Area",
+                    "icon": "LayersIcon",
+                    "tooltip": "Working Area",
+                    "badge": "739"
+                },
+                {
+                    "href": "/field-information",
+                    "label": "Field Information",
+                    "icon": "FileTextIcon",
+                    "tooltip": "Field Information",
+                    "badge": "16.950"
+                }
+            ]
+        }
+    ],
+    "navRepositoryData": [
+        {
+            "title": "Seismic",
+            "url": "/seismic",
+            "icon": "activity",
+            "tooltip": "Seismic",
+            "items": [
+                {
+                    "href": "/seismic",
+                    "label": "Overview"
+                }
+            ]
+        },
+        {
+            "title": "Non-Seismic & Seismic Non-Conventional",
+            "url": "/non-seismic",
+            "icon": "chart-no-axes-column-increasing",
+            "tooltip": "Non-Seismic & Seismic Non-Conventional",
+            "items": [
+                {
+                    "href": "/non-seismic",
+                    "label": "Overview"
+                }
+            ]
+        },
+        {
+            "title": "Well",
+            "url": "/well",
+            "icon": "oil-rig",
+            "tooltip": "Well",
+            "items": [
+                {
+                    "href": "/well",
+                    "label": "Overview"
+                }
+            ]
+        },
+        {
+            "title": "Outcrop",
+            "url": "/outcrop",
+            "icon": "mountain",
+            "tooltip": "Outcrop",
+            "items": [
+                {
+                    "href": "/outcrop",
+                    "label": "Overview"
+                }
+            ]
+        },
+        {
+            "title": "Thecnical Reports",
+            "url": "/technical-reports",
+            "icon": "file-chart-line",
+            "tooltip": "Thecnical Reports",
+            "items": [
+                {
+                    "href": "/technical-reports",
+                    "label": "Overview"
+                }
+            ]
+        },
+        {
+            "title": "Maps & Technical Drawings",
+            "url": "/maps-technical-drawings",
+            "icon": "map-pinned",
+            "tooltip": "Maps & Technical Drawings",
+            "items": [
+                {
+                    "href": "/maps-technical-drawings",
+                    "label": "Overview"
+                }
+            ]
+        },
+        {
+            "title": "Project Data",
+            "url": "/project-data",
+            "icon": "file-spreadsheet",
+            "tooltip": "Project Data",
+            "items": [
+                {
+                    "href": "/project-data",
+                    "label": "Overview"
+                }
+            ]
+        },
+        {
+            "title": "Bibliography",
+            "url": "/bibliography",
+            "icon": "book-open-text",
+            "tooltip": "Bibliography",
+            "items": [
+                {
+                    "href": "/bibliography",
+                    "label": "Overview"
+                }
+            ]
+        }
+    ]
+}
