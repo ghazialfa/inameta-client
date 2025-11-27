@@ -56,7 +56,7 @@ const navRepositoryDataItems = data.navRepositoryData.map((item) => ({
 }))
 
 
-function PagesLayoutImpl({ children, ...props }: React.ComponentProps<typeof Sidebar> & { children: React.ReactNode }) {
+function PagesLayoutImpl({ children }: { children: React.ReactNode; params: Promise<{}> }) {
     const token = useAuthStore((s) => s.token)
     const hydrated = useAuthStore((s) => s.hydrated)
     const router = useRouter()
@@ -67,7 +67,7 @@ function PagesLayoutImpl({ children, ...props }: React.ComponentProps<typeof Sid
 
     return (
         <SidebarProvider>
-            <Sidebar collapsible="icon" {...props}>
+            <Sidebar collapsible="icon">
                 <SidebarHeader className="flex items-center justify-center">
                     <Image src={logoIcon} alt="Inameta Lite" height={32} />
                 </SidebarHeader>
