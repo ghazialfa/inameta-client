@@ -7,7 +7,7 @@ import { SidebarProvider, SidebarInset, SidebarTrigger, Sidebar, SidebarHeader, 
 import section from "./section.json"
 import * as Icons from "lucide-react"
 import type { LucideIcon } from "lucide-react"
-import Image from "next/image"
+// import Image from "next/image"
 import logoIcon from "@/assets/img/icons/icon.png"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
@@ -71,7 +71,7 @@ function PagesLayoutImpl({ children }: { children: React.ReactNode; params: Prom
         <SidebarProvider>
             <Sidebar collapsible="icon">
                 <SidebarHeader className="flex items-center justify-center">
-                    <Image src={logoIcon} alt="Inameta Lite" height={32} />
+                    <img src={logoIcon} alt="Inameta Lite" height={32} />
                 </SidebarHeader>
                 <SidebarContent>
                     <NavMain items={navMainItems} />
@@ -81,7 +81,7 @@ function PagesLayoutImpl({ children }: { children: React.ReactNode; params: Prom
                 <SidebarRail />
             </Sidebar>
             <SidebarInset>
-                <div className="flex items-center gap-2 border-b border-border bg-card px-4 py-2">
+                <div className="sticky top-0 z-10 flex items-center gap-2 border-b border-border bg-card px-4 py-2">
                     <SidebarTrigger />
                 </div>
                 <div className="p-4 bg-background min-h-dvh">{children}</div>

@@ -2,7 +2,7 @@ import axios, { type AxiosRequestHeaders } from "axios"
 import { useAuthStore } from "@/store/auth"
 
 export const api = axios.create({
-    baseURL: "/api",
+    baseURL: "http://172.30.22.183/endpoints/api",
 })
 
 api.interceptors.request.use((config) => {

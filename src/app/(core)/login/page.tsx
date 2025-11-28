@@ -1,5 +1,5 @@
 "use client"
-import Image from "next/image"
+// import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
@@ -52,12 +52,12 @@ export default function LoginPage() {
     return (
         <div className="grid min-h-svh lg:grid-cols-2">
             <div className="relative hidden lg:block">
-                <Image src={wellImage} alt="Well" fill className="absolute inset-0 object-cover" priority />
+                <img src={wellImage} alt="Well" fill className="absolute inset-0 object-cover" priority />
             </div>
             <div className="flex flex-col items-center justify-center p-6 md:p-10">
                 <div className="w-full max-w-sm">
                     <div className="flex justify-center mb-4">
-                        <Image src={logoIcon} alt="Inameta Lite" height={48} />
+                        <img src={logoIcon} alt="Inameta Lite" height={48} />
                     </div>
                     <form
                         className="flex flex-col gap-4"

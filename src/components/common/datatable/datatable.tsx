@@ -5,6 +5,7 @@ import {
     ColumnDef,
     ColumnFiltersState,
     SortingState,
+    VisibilityState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
@@ -32,11 +33,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     const [rowSelection, setRowSelection] = React.useState({})
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [globalFilter, setGlobalFilter] = React.useState("")
-    const [searchableColumns, setSearchableColumns] = React.useState<string[]>(() =>
-        columns
-            .filter((c): c is ColumnDef<TData> & { accessorKey: string } => "accessorKey" in c && typeof c.accessorKey === "string")
-            .map((c) => c.accessorKey),
-    )
+    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
 
     const table = useReactTable({
         data,
@@ -50,8 +47,10 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         globalFilterFn: (row, columnId, filterValue) => {
             if (!filterValue) return true
 
-            return searchableColumns.some((colKey) => {
-                const cellValue = row.getValue(colKey)
+            const visibleColumnIds = row.getVisibleCells().map((cell) => cell.column.id)
+
+            return visibleColumnIds.some((colId) => {
+                const cellValue = row.getValue(colId)
                 if (cellValue == null) return false
                 return String(cellValue).toLowerCase().includes(filterValue.toLowerCase())
             })
@@ -59,11 +58,13 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         onGlobalFilterChange: setGlobalFilter,
         enableRowSelection: true,
         onRowSelectionChange: setRowSelection,
+        onColumnVisibilityChange: setColumnVisibility,
         state: {
             sorting,
             columnFilters,
             globalFilter,
             rowSelection,
+            columnVisibility,
         },
     })
 
@@ -75,17 +76,20 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
         if (!rowsToCopy.length) return
 
-        const exportableColumns = columns
-            .filter((c): c is ColumnDef<TData> & { accessorKey: string } => "accessorKey" in c && typeof c.accessorKey === "string")
-            .map((c) => c.accessorKey)
+        const visibleColumns = table.getAllLeafColumns().filter((col) => col.getIsVisible())
 
-        const header = exportableColumns.join(",")
+        const header = visibleColumns
+            .map((col) => {
+                const headerDef = col.columnDef.header
+                const label = typeof headerDef === "string" ? headerDef : col.id
+                return label
+            })
+            .join(",")
 
         const csvRows = rowsToCopy.map((row) =>
-            exportableColumns
-                .map((key) => {
-                    const value = row.original[key as keyof TData]
-
+            visibleColumns
+                .map((col) => {
+                    const value = row.getValue(col.id)
                     if (typeof value === "string") {
                         return `"${value.replace(/"/g, '""')}"`
                     }
@@ -152,12 +156,14 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
                                     const key = col.accessorKey
 
+                                    const isVisible = table.getColumn(key)?.getIsVisible() ?? true
+
                                     return (
                                         <DropdownMenuCheckboxItem
                                             key={key}
-                                            checked={searchableColumns.includes(key)}
+                                            checked={isVisible}
                                             onCheckedChange={(checked) => {
-                                                setSearchableColumns((prev) => (checked ? [...prev, key] : prev.filter((k) => k !== key)))
+                                                table.getColumn(key)?.toggleVisibility(!!checked)
                                             }}
                                         >
                                             {label}

@@ -40,6 +40,7 @@ import basinsJson from "../basins.json"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
+import DetailCard from "@/components/common/card/detail-card"
 
 interface BasinPageProps {
     params: Promise<{
@@ -99,22 +100,14 @@ export default async function BasinDetailPage({ params }: BasinPageProps) {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6 py-6">
-                <div className="flex flex-col gap-4 bg-card border border-border rounded-md p-6">
-                    <h4 className="text-primary font-bold text-xl">Basic Information</h4>
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Area ID</p>
-                        <p className="font-medium">{basin.area_id || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Area Type</p>
-                        <p className="font-medium">{basin.area_type || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Area Description Code</p>
-                        <p className="font-medium">
-                            {(() => {
+                <DetailCard
+                    title="Basic Information"
+                    items={[
+                        { label: "Area ID", value: basin.area_id || "-" },
+                        { label: "Area Type", value: basin.area_type || "-" },
+                        {
+                            label: "Area Description Code",
+                            value: (() => {
                                 const label = basin.area_desc_code || "-"
                                 const variant = label.includes("Discovery")
                                     ? "success"
@@ -124,135 +117,62 @@ export default async function BasinDetailPage({ params }: BasinPageProps) {
                                             ? "warning"
                                             : "default"
                                 return <Badge variant={variant}>{label}</Badge>
-                            })()}
-                        </p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Product Type</p>
-                        <p className="font-medium">{basin.product_type || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Source</p>
-                        <p className="font-medium">{basin.source || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Remark</p>
-                        <p className="font-medium">{basin.remark || "-"}</p>
-                    </div>
-                </div>
+                            })(),
+                        },
+                        { label: "Product Type", value: basin.product_type || "-" },
+                        { label: "Source", value: basin.source || "-" },
+                        { label: "Remark", value: basin.remark || "-" },
+                    ]}
+                />
 
-                <div className="flex flex-col gap-4 bg-card border border-border rounded-md p-6">
-                    <h4 className="text-primary font-bold text-xl">Size Information</h4>
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Size Type</p>
-                        <p className="font-medium">{basin.size_type || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Size Type 1</p>
-                        <p className="font-medium">{basin.size_type_1 || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Gross Size</p>
-                        <p className="font-medium">{basin.gross_size?.toString() || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Gross Size 1</p>
-                        <p className="font-medium">{basin.gross_size_1?.toString() || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Gross Size 2</p>
-                        <p className="font-medium">{basin.gross_size_2?.toString() || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Size OUOM</p>
-                        <p className="font-medium">{basin.size_ouom || "-"}</p>
-                    </div>
-                </div>
+                <DetailCard
+                    title="Size Information"
+                    items={[
+                        { label: "Size Type", value: basin.size_type || "-" },
+                        { label: "Size Type 1", value: basin.size_type_1 || "-" },
+                        { label: "Gross Size", value: basin.gross_size?.toString() || "-" },
+                        { label: "Gross Size 1", value: basin.gross_size_1?.toString() || "-" },
+                        { label: "Gross Size 2", value: basin.gross_size_2?.toString() || "-" },
+                        { label: "Size OUOM", value: basin.size_ouom || "-" },
+                    ]}
+                />
 
-                <div className="flex flex-col gap-4 bg-card border border-border rounded-md p-6">
-                    <h4 className="text-primary font-bold text-xl">Balance Information</h4>
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Open Balance</p>
-                        <p className="font-medium">{basin.open_balance?.toString() || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Open Balance UOM</p>
-                        <p className="font-medium">{basin.open_balance_ouom || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Current Balance</p>
-                        <p className="font-medium">{basin.current_balance?.toString() || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Current Balance UOM</p>
-                        <p className="font-medium">{basin.current_balance_ouom || "-"}</p>
-                    </div>
-                </div>
+                <DetailCard
+                    title="Balance Information"
+                    items={[
+                        { label: "Open Balance", value: basin.open_balance?.toString() || "-" },
+                        { label: "Open Balance UOM", value: basin.open_balance_ouom || "-" },
+                        { label: "Current Balance", value: basin.current_balance?.toString() || "-" },
+                        { label: "Current Balance UOM", value: basin.current_balance_ouom || "-" },
+                    ]}
+                />
 
-                <div className="flex flex-col gap-4 bg-card border border-border rounded-md p-6">
-                    <h4 className="text-primary font-bold text-xl">File Information</h4>
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Original File Name</p>
-                        <p className="font-medium">{basin.original_file_name || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Media Type</p>
-                        <p className="font-medium">{basin.media_type || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Digital Size</p>
-                        <p className="font-medium">{basin.digital_size?.toString() || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Digital Size UOM</p>
-                        <p className="font-medium">{basin.digital_size_uom || "-"}</p>
-                    </div>
-                </div>
+                <DetailCard
+                    title="File Information"
+                    items={[
+                        { label: "Original File Name", value: basin.original_file_name || "-" },
+                        { label: "Media Type", value: basin.media_type || "-" },
+                        { label: "Digital Size", value: basin.digital_size?.toString() || "-" },
+                        { label: "Digital Size UOM", value: basin.digital_size_uom || "-" },
+                    ]}
+                />
 
-                <div className="flex flex-col gap-4 bg-card border border-border rounded-md p-6">
-                    <h4 className="text-primary font-bold text-xl">Quality & Verification</h4>
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Fault Type</p>
-                        <p className="font-medium">{basin.fault_type || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Row Quality</p>
-                        <p className="font-medium">{basin.row_quality || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Checked BA ID</p>
-                        <p className="font-medium">{basin.checked_by_ba_id || "-"}</p>
-                    </div>
-                </div>
+                <DetailCard
+                    title="Quality & Verification"
+                    items={[
+                        { label: "Fault Type", value: basin.fault_type || "-" },
+                        { label: "Row Quality", value: basin.row_quality || "-" },
+                        { label: "Checked BA ID", value: basin.checked_by_ba_id || "-" },
+                    ]}
+                />
 
-                <div className="flex flex-col gap-4 bg-[#FEFEFE] border-white rounded-md p-6">
-                    <h4 className="text-primary font-bold text-xl">Security Information</h4>
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Decrypt Key</p>
-                        <p className="font-medium">{basin.decrypt_key || "-"}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between">
-                        <p className="text-gray-500 text-sm">Decryption Type</p>
-                        <p className="font-medium">{basin.decryption_type || "-"}</p>
-                    </div>
-                </div>
+                <DetailCard
+                    title="Security Information"
+                    items={[
+                        { label: "Decrypt Key", value: basin.decrypt_key || "-" },
+                        { label: "Decryption Type", value: basin.decryption_type || "-" },
+                    ]}
+                />
             </div>
         </div>
     )

@@ -2,6 +2,7 @@
 import { DataTable } from "@/components/common/datatable/datatable"
 import { createColumns } from "@/components/common/datatable/columns"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { FolderInput, EyeIcon, MapPin } from "lucide-react"
 import Link from "next/link"
 
@@ -85,6 +86,20 @@ const columns = createColumns<WellSummaryRow>({
     ),
 })
 
+const legendItems = [
+    { code: "WDR", desc: "Well Drilling" },
+    { code: "WCG", desc: "Well Casing" },
+    { code: "DWL", desc: "Digital Well Logs" },
+    { code: "DIWL", desc: "Digital Well Image Logs" },
+    { code: "PWL", desc: "Printed Well Logs" },
+    { code: "DWR", desc: "Digital Well Report" },
+    { code: "PWR", desc: "Printed Well Report" },
+    { code: "WSPD", desc: "Well Seismic Profile Digital" },
+    { code: "WSPM", desc: "Well Seismic Profile Data Store in Media" },
+    { code: "WSM", desc: "Well Sample" },
+    { code: "WCS", desc: "Well Core Sample" },
+]
+
 export default function WellSummaryPage() {
     return (
         <div className="max-w-full min-h-dvh p-6 bg-background flex flex-col gap-8">
@@ -103,6 +118,16 @@ export default function WellSummaryPage() {
 
             <div className="p-6 bg-card border border-border rounded-xl">
                 <DataTable columns={columns} data={dummyData} />
+            </div>
+            <div className="p-6 bg-card border border-border rounded-xl">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                    {legendItems.map((item) => (
+                        <div key={item.code} className="flex items-center gap-3 text-sm">
+                            <Badge variant="outline" className="px-3 py-1 rounded-sm">{item.code}</Badge>
+                            <span className="text-muted-foreground">{item.desc}</span>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     )
