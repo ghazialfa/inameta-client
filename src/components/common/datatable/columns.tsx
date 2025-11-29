@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { ChevronsUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-type DynamicColumnOptions<RowData extends Record<PropertyKey, unknown>, ColumnKey extends keyof RowData = keyof RowData> = {
+type DynamicColumnOptions<RowData, ColumnKey extends keyof RowData = keyof RowData> = {
     keys: ColumnKey[]
     headerLabels?: Partial<Record<ColumnKey, string>>
     cells?: Partial<Record<ColumnKey, (row: RowData) => React.ReactNode>>
@@ -13,7 +13,9 @@ type DynamicColumnOptions<RowData extends Record<PropertyKey, unknown>, ColumnKe
     actions?: (row: RowData) => React.ReactNode
 }
 
-export function createColumns<RowData extends Record<PropertyKey, unknown>, ColumnKey extends keyof RowData = keyof RowData>(options: DynamicColumnOptions<RowData, ColumnKey>): ColumnDef<RowData>[] {
+export function createColumns<RowData, ColumnKey extends keyof RowData = keyof RowData>(
+    options: DynamicColumnOptions<RowData, ColumnKey>,
+): ColumnDef<RowData>[] {
     const { keys, headerLabels, cells, sortable, includeRowNumber = true, actions } = options
 
     const cols: ColumnDef<RowData>[] = []

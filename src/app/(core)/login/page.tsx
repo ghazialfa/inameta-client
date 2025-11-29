@@ -1,12 +1,13 @@
 "use client"
-// import Image from "next/image"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import logoIcon from "@/assets/img/icons/icon.png"
 import wellImage from "@/assets/img/well.png"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
+// import { useState, useEffect } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { api } from "@/lib/axios"
 import { useAuthStore } from "@/store/auth"
@@ -17,8 +18,8 @@ export default function LoginPage() {
     const [isVisible, setIsVisible] = useState(false)
     const [errors, setErrors] = useState<{ username?: string; password?: string; root?: string }>({})
     const router = useRouter()
-    const token = useAuthStore((s) => s.token)
-    const hydrated = useAuthStore((s) => s.hydrated)
+    // const token = useAuthStore((s) => s.token)
+    // const hydrated = useAuthStore((s) => s.hydrated)
 
     const loginSchema = z.object({
         username: z.string().min(3, "Username must be at least 3 characters"),
@@ -45,19 +46,20 @@ export default function LoginPage() {
         },
     })
 
-    useEffect(() => {
-        if (hydrated && token) router.replace("/")
-    }, [hydrated, token, router])
+    //!bypass login for debugging tanpa api!!!
+    // useEffect(() => {
+    //     if (hydrated && token) router.replace("/")
+    // }, [hydrated, token, router])
 
     return (
         <div className="grid min-h-svh lg:grid-cols-2">
             <div className="relative hidden lg:block">
-                <img src={wellImage} alt="Well" fill className="absolute inset-0 object-cover" priority />
+                <Image src={wellImage} alt="Well" fill className="absolute inset-0 object-cover" priority />
             </div>
             <div className="flex flex-col items-center justify-center p-6 md:p-10">
                 <div className="w-full max-w-sm">
                     <div className="flex justify-center mb-4">
-                        <img src={logoIcon} alt="Inameta Lite" height={48} />
+                        <Image src={logoIcon} alt="Inameta Lite" height={48} />
                     </div>
                     <form
                         className="flex flex-col gap-4"

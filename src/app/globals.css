@@ -143,3 +143,24 @@
         @apply bg-background text-foreground;
     }
 }
+
+@layer components {
+    .page-wrapper {
+        @apply max-w-full min-h-dvh p-6 bg-background flex flex-col gap-8;
+    }
+    .page-header {
+        @apply w-full flex justify-between;
+    }
+    .page-title {
+        @apply font-bold text-4xl/tight;
+    }
+    .page-subtitle {
+        @apply text-muted-foreground;
+    }
+    .section-card {
+        @apply p-6 bg-card border border-border rounded-xl;
+    }
+    .btn-export {
+        @apply w-36 h-10 bg-primary hover:bg-primary/90 rounded-md;
+    }
+}

@@ -36,19 +36,11 @@ const columns = createColumns<DigitalMapsRow>({
     actions: (row) => (
         <>
             <Link href={"/maps/digital/" + row.uuid}>
-                <Button
-                    size="icon-sm"
-                    variant={"outline"}
-                    className="shadow-none rounded-sm border-border text-muted-foreground"
-                >
+                <Button size="icon-sm" variant={"outline"} className="shadow-none rounded-sm border-border text-muted-foreground">
                     <EyeIcon />
                 </Button>
             </Link>
-            <Button
-                size="icon-sm"
-                variant={"outline"}
-                className="shadow-none rounded-sm border-border text-muted-foreground"
-            >
+            <Button size="icon-sm" variant={"outline"} className="shadow-none rounded-sm border-border text-muted-foreground">
                 <Download />
             </Button>
         </>
@@ -57,21 +49,21 @@ const columns = createColumns<DigitalMapsRow>({
 
 export default function DigitalMapsPage() {
     return (
-        <div className="max-w-full min-h-dvh p-6 bg-background flex flex-col gap-8">
-            <div className="w-full flex justify-between">
+        <div className="page-wrapper">
+            <div className="page-header">
                 <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-4xl/tight">Digital Maps and Technical Drawing</h3>
-                    <p className="text-muted-foreground">Browse and download digital maps and technical drawings</p>
+                    <h3 className="page-title">Digital Maps and Technical Drawing</h3>
+                    <p className="page-subtitle">Browse and download digital maps and technical drawings</p>
                 </div>
 
                 <div>
-                    <Button variant="default" className="w-36 h-10 bg-primary hover:bg-primary/90 rounded-md">
+                    <Button variant="default" className="btn-export">
                         <FolderInput /> Export
                     </Button>
                 </div>
             </div>
 
-            <div className="p-6 bg-card border border-border rounded-xl">
+            <div className="section-card">
                 <DataTable columns={columns} data={dummyData} />
             </div>
         </div>

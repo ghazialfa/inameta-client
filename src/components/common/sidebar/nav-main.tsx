@@ -7,7 +7,7 @@ import Link from "next/link"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import {
     SidebarGroup,
-    // SidebarGroupLabel,
+    SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
@@ -18,6 +18,7 @@ import {
 
 export function NavMain({
     items,
+    groupLabel,
 }: {
     items: {
         title: string
@@ -29,6 +30,7 @@ export function NavMain({
             url: string
         }[]
     }[]
+    groupLabel?: string
 }) {
     const pathname = usePathname()
 
@@ -39,8 +41,8 @@ export function NavMain({
 
     return (
         <SidebarGroup>
-            {/* <SidebarGroupLabel>Platform</SidebarGroupLabel> */}
-            <SidebarMenu>
+            {groupLabel && <SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>}
+            <SidebarMenu className="gap-3">
                 {items.map((item) =>
                     item.items && item.items.length > 0 ? (
                         <Collapsible

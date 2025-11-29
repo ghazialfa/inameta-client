@@ -25,26 +25,24 @@
                     "href": "/basin",
                     "label": "Basin",
                     "icon": "LayersIcon",
-                    "tooltip": "Basin",
-                    "children": [{ "href": "/basin", "label": "Overview" }]
+                    "tooltip": "Basin"
                 },
                 {
                     "href": "/working-area",
                     "label": "Working Area",
                     "icon": "LayersIcon",
-                    "tooltip": "Working Area",
-                    "badge": "739"
+                    "tooltip": "Working Area"
                 },
                 {
                     "href": "/field-information",
                     "label": "Field Information",
                     "icon": "FileTextIcon",
-                    "tooltip": "Field Information",
-                    "badge": "16.950"
+                    "tooltip": "Field Information"
                 }
             ]
         }
     ],
+    "navRepositoryDataLabel": "Repository Data",
     "navRepositoryData": [
         {
             "title": "Seismic",
@@ -73,7 +71,7 @@
         {
             "title": "Well",
             "url": "/well",
-            "icon": "tower-control",
+            "icon": "WellIcon",
             "tooltip": "Well",
             "items": [
                 {
@@ -90,9 +88,10 @@
                 },
                 {
                     "label": "Well Log",
+                    "url": "well-log",
                     "items": [
                         {
-                            "href": "/",
+                            "href": "/overview",
                             "label": "Overview"
                         }
                     ]

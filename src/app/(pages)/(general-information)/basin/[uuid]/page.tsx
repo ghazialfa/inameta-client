@@ -48,18 +48,24 @@ interface BasinPageProps {
     }>
 }
 
+type BasinJson = Omit<Basin, "dm_row_created_date" | "dm_row_approved_date" | "dm_row_loaded_date" | "dm_row_qc_date"> & {
+    dm_row_created_date: string | null
+    dm_row_approved_date: string | null
+    dm_row_loaded_date: string | null
+    dm_row_qc_date: string | null
+}
+
+export function generateStaticParams() {
+    return (basinsJson as BasinJson[]).map((b) => ({
+        uuid: b.uuid,
+    }))
+}
+
 export default async function BasinDetailPage({ params }: BasinPageProps) {
     const { uuid } = await params
 
     if (!uuid) {
         return <div className="p-6 text-red-600">Invalid route parameter.</div>
-    }
-
-    type BasinJson = Omit<Basin, "dm_row_created_date" | "dm_row_approved_date" | "dm_row_loaded_date" | "dm_row_qc_date"> & {
-        dm_row_created_date: string | null
-        dm_row_approved_date: string | null
-        dm_row_loaded_date: string | null
-        dm_row_qc_date: string | null
     }
 
     const basinsRaw = basinsJson as BasinJson[]
@@ -84,7 +90,9 @@ export default async function BasinDetailPage({ params }: BasinPageProps) {
                     <BreadcrumbList>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <Link href="/basin" className="text-primary">Basin</Link>
+                                <Link href="/basin" className="text-primary">
+                                    Basin
+                                </Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />

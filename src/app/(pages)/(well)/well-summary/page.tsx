@@ -2,7 +2,7 @@
 import { DataTable } from "@/components/common/datatable/datatable"
 import { createColumns } from "@/components/common/datatable/columns"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import LegendCard from "@/components/common/card/legend-card"
 import { FolderInput, EyeIcon, MapPin } from "lucide-react"
 import Link from "next/link"
 
@@ -42,21 +42,7 @@ const dummyData: WellSummaryRow[] = Array.from({ length: 150 }).map((_, i) => ({
 
 const columns = createColumns<WellSummaryRow>({
     includeRowNumber: true,
-    keys: [
-        "well_name",
-        "area_id",
-        "wdr",
-        "wcg",
-        "dwl",
-        "diwl",
-        "pwl",
-        "dwr",
-        "pwr",
-        "wspd",
-        "wspm",
-        "wsm",
-        "wcs",
-    ],
+    keys: ["well_name", "area_id", "wdr", "wcg", "dwl", "diwl", "pwl", "dwr", "pwr", "wspd", "wspm", "wsm", "wcs"],
     headerLabels: {
         well_name: "Well Name",
         area_id: "Area_ID",
@@ -102,34 +88,24 @@ const legendItems = [
 
 export default function WellSummaryPage() {
     return (
-        <div className="max-w-full min-h-dvh p-6 bg-background flex flex-col gap-8">
-            <div className="w-full flex justify-between">
+        <div className="page-wrapper">
+            <div className="page-header">
                 <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-4xl/tight">Well Summary</h3>
-                    <p className="text-muted-foreground">Comprehensive well data summary and reports</p>
+                    <h3 className="page-title">Well Summary</h3>
+                    <p className="page-subtitle">Comprehensive well data summary and reports</p>
                 </div>
 
                 <div>
-                    <Button variant="default" className="w-36 h-10 bg-primary hover:bg-primary/90 rounded-md">
+                    <Button variant="default" className="btn-export">
                         <FolderInput /> Export
                     </Button>
                 </div>
             </div>
 
-            <div className="p-6 bg-card border border-border rounded-xl">
+            <div className="section-card">
                 <DataTable columns={columns} data={dummyData} />
             </div>
-            <div className="p-6 bg-card border border-border rounded-xl">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-                    {legendItems.map((item) => (
-                        <div key={item.code} className="flex items-center gap-3 text-sm">
-                            <Badge variant="outline" className="px-3 py-1 rounded-sm">{item.code}</Badge>
-                            <span className="text-muted-foreground">{item.desc}</span>
-                        </div>
-                    ))}
-                </div>
-            </div>
+            <LegendCard items={legendItems} />
         </div>
     )
 }
-
